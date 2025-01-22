@@ -18,11 +18,20 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+            - name: Install Rust toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  override: true
+            - name: Run sccache-cache
+              uses: mozilla-actions/sccache-action@v0.0.3
             - name: Check rust toolchain version
               run: |
+                set -x
                 cargo version
                 rustc --version
-                rustup toolchain list
+                rustup toolchain list 
+                rustup show
             - name: Build rust
               run: cargo build
             - name: Generate witness
